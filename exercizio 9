@@ -1,0 +1,125 @@
+Main
+using System;
+using System.Globalization;
+
+namespace Atvs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double saque;
+            double deposito;
+            Console.WriteLine("=======================================================================");
+            Console.WriteLine("Banco");
+            Console.WriteLine("=======================================================================");
+            Console.WriteLine("");
+            Console.WriteLine("login:");
+            Console.Write("Insira o número da sua conta : ");
+            int numconta =  int.Parse(Console.ReadLine());
+            Console.Write("Insira seu nome : ");
+            string nome = Console.ReadLine();
+            Console.Write("Você deseja fazer um depósito inicial ? s/n : ");
+            string depositoInicial = Console.ReadLine();
+            if(depositoInicial == "s")
+            {
+                Console.Write("Insira o valor do depósito inicial : ");
+                deposito = double.Parse(Console.ReadLine());
+                          
+            }
+            else 
+            {
+                deposito = 0;
+            }
+            Console.WriteLine("");
+            Banco conta = new Banco(nome,numconta,deposito);
+            Console.Clear();
+            conta.dadosAtualizados();
+            while (true)
+            {
+                Console.WriteLine("O que você deseja fazer ? (Insira o número da ação)");
+                Console.WriteLine("Depósito - 1");
+                Console.WriteLine("Saque - 2");
+                Console.WriteLine("Ver dados da conta - 3");
+                int escolha = int.Parse(Console.ReadLine());
+                switch(escolha)
+                {
+                    case 1:
+                        Console.Write("Insira o valor que você deseja depositar : ");
+                        deposito = int.Parse(Console.ReadLine());
+                        Console.WriteLine("");
+                        conta.Deposito(deposito);
+                        break;
+
+                    case 2:
+                        Console.Write("Insira o valor que você deseja sacar : ");
+                        saque = int.Parse(Console.ReadLine());
+                        Console.WriteLine("");
+                        conta.Sacar(saque);
+                        break;
+
+                    case 3:
+                        Console.WriteLine("");
+                        conta.dadosAtualizados();
+                        break;
+      
+                }
+                Console.ReadKey();
+                Console.Clear() ;
+            }
+
+
+            
+            
+        }     
+    }
+}
+
+Classes
+
+using System;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
+
+public class Banco
+{
+    public string Nome { get; set; }
+    public int NumConta { get; private set; }
+    public double Saldo { get; private set; }
+    
+    public Banco(string Nome, int NumConta, double Saldo)
+    {
+        this.Nome = Nome;
+        this.NumConta = NumConta;
+        this.Saldo = Saldo;
+        dadosAtualizados();
+    }
+
+    public Banco(string Nome, int NumConta)
+    {
+        this.Nome = Nome;
+        this.NumConta = NumConta;
+        this.Saldo = 0;
+        dadosAtualizados();
+    }
+
+    public void Deposito(double valorDepositado)
+    {
+        Saldo += valorDepositado;
+        Console.WriteLine("Depósito realizado.");
+        dadosAtualizados();
+    }
+
+    public void Sacar(double valorSaque)
+    {
+        Saldo = Saldo - valorSaque - 5;
+        Console.WriteLine("Saque realizado.");
+        dadosAtualizados();
+    }
+
+    public void dadosAtualizados()
+    {
+        Console.WriteLine($"Dados da conta atualizados:\r\nConta {NumConta}, Titular: {Nome}, Saldo: $ {Saldo}");
+        Console.WriteLine("");
+    }
+}
